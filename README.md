@@ -1,9 +1,9 @@
 # Gym Partner
 
 ### About
-This is the Rails JSON API back-end that powers Gym Partner.
+Gym Partner is an app that helps you plan exercise routines, set fitness goals, and track your improvement over time.
 
-Gym Partner allows you to plan exercise routines, set fitness goals, and track your improvement over time.
+This is the Rails back-end that powers Gym Partner.
 
 ![gym partner logo](https://gympartner.s3-us-west-1.amazonaws.com/brand/facebook_cover_photo_2.png)
 

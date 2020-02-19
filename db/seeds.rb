@@ -1,3 +1,12 @@
+User.create(
+    {
+        name: "First User",
+        email: "first@user.com",
+        password: "foobar",
+        password_confirmation: "foobar"
+    }
+)
+
 5.times do 
     User.create(
         {
