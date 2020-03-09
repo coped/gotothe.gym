@@ -5,17 +5,25 @@ module Api::V1
         def create
             @user = User.find_by(email: login_params[:email])
             if @user && @user.authenticate(login_params[:password])
-                payload = { user_id: @user.id }
-                token = encode_token(payload)
+
+                token = encode_token({ user_id: @user.id })
+                user_details = UserBlueprint.render_as_hash(@user)
+
                 render json: {
-                    success: true,
-                    user: @user,
-                    jwt: token
+                    status: "success",
+                    messages: {},
+                    response: {
+                        user: user_details,
+                        jwt: token
+                    }
                 }
             else
                 render json: {
-                    success: false,
-                    error_message: "Invalid email or password."
+                    status: "error",
+                    messages: {
+                        error_message: "Invalid email or password."
+                    },
+                    response: {}
                 }
             end
         end
@@ -23,12 +31,17 @@ module Api::V1
         def auto_login
             if session_user
                 render json: { 
-                    success: true
+                    status: "success",
+                    messages: {},
+                    response: {}
                 }
             else
                 render json: { 
-                    success: false,
-                    error_message: "Not logged in."
+                    status: "error",
+                    messages: {
+                        error_message: "Not logged in."
+                    },
+                    response: {}
                 }
             end
         end

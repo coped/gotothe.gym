@@ -9,20 +9,22 @@ class Api::UsersControllerTest < ActionDispatch::IntegrationTest
 
     test "should give user when authorized" do
         get api_v1_user_path(@user), headers: { authorization: @auth_header }
-        assert json_response["success"]
-        assert_includes json_response, "user"
+        assert_equal json_response["status"], "success"
+        assert_includes json_response["response"], "user"
     end
 
     test "should not give user when unauthorized" do
         get api_v1_user_path(@user)
-        assert_not json_response["success"]
-        assert_includes json_response, "error_message"
+        assert_equal json_response["status"], "error"
+        assert_includes json_response["messages"], "error_message"
+        assert_empty json_response["response"]
     end
 
     test "should not give user when different user" do
         get api_v1_user_path(@other_user), headers: { authorization: @auth_header }
-        assert_not json_response["success"]
-        assert_includes json_response, "error_message"
+        assert_equal json_response["status"], "error"
+        assert_includes json_response["messages"], "error_message"
+        assert_empty json_response["response"]
     end
 
     test "should respond with user and jwt upon create" do
@@ -30,9 +32,9 @@ class Api::UsersControllerTest < ActionDispatch::IntegrationTest
                                                 email: "new@user.com",
                                                 password: "foobar",
                                                 password_confirmation: "foobar" } }
-        assert json_response["success"]
-        assert_includes json_response, "user"
-        assert_includes json_response, "jwt"
+        assert_equal json_response["status"], "success"
+        assert_includes json_response["response"], "user"
+        assert_includes json_response["response"], "jwt"
     end
 
     test "should not respond with user and jwt if create is unsuccessful" do
@@ -40,50 +42,55 @@ class Api::UsersControllerTest < ActionDispatch::IntegrationTest
                                                 email: "newuser.com",
                                                 password: "",
                                                 password_confirmation: "" } }
-        assert_not json_response["success"]
-        assert_includes json_response, "error_message"
+        assert_equal json_response["status"], "error"
+        assert_includes json_response["messages"], "error_message"
+        assert_empty json_response["response"]
     end
 
     test "should respond with user upon update" do
         patch api_v1_user_path(@user), params: { user: { name: "My New Name" } }, headers: { authorization: @auth_header }
-        assert json_response["success"]
-        assert_includes json_response, "user"
+        assert_equal json_response["status"], "success"
+        assert_includes json_response["response"], "user"
     end
 
     test "should not respond with user if update is unsuccessful" do
         patch api_v1_user_path(@user), params: { user: { email: "newemail.com" } }, headers: { authorization: @auth_header }
-        assert_not json_response["success"]
-        assert_not_includes json_response, "user"
-        assert_includes json_response, "error_message"
+        assert_equal json_response["status"], "error"
+        assert_includes json_response["messages"], "error_message"
+        assert_empty json_response["response"]
     end
 
     test "should not respond with user if different user" do
         patch api_v1_user_path(@other_user), params: { user: { email: "newemail.com" } }, headers: { authorization: @auth_header }
-        assert_not json_response["success"]
-        assert_not_includes json_response, "user"
-        assert_includes json_response, "error_message"
+        assert_equal json_response["status"], "error"
+        assert_includes json_response["messages"], "error_message"
+        assert_empty json_response["response"]
     end
 
     test "should not respond with user if unauthorized" do
         patch api_v1_user_path(@user), params: { user: { name: "My New Name" } }
-        assert_not json_response["success"]
-        assert_includes json_response, "error_message"
+        assert_equal json_response["status"], "error"
+        assert_includes json_response["messages"], "error_message"
+        assert_empty json_response["response"]
     end
 
     test "should respond with success if user destroyed" do
         delete api_v1_user_path(@user), headers: { authorization: @auth_header }
-        assert json_response["success"]
+        assert_equal json_response["status"], "success"
+        assert_empty json_response["response"]
     end
 
     test "should not respond with success if user unauthorized" do
         delete api_v1_user_path(@user)
-        assert_not json_response["success"]
-        assert_includes json_response, "error_message"
+        assert_equal json_response["status"], "error"
+        assert_includes json_response["messages"], "error_message"
+        assert_empty json_response["response"]
     end
 
     test "should not respond with success if different user" do
         delete api_v1_user_path(@other_user)
-        assert_not json_response["success"]
-        assert_includes json_response, "error_message"
+        assert_equal json_response["status"], "error"
+        assert_includes json_response["messages"], "error_message"
+        assert_empty json_response["response"]
     end
 end

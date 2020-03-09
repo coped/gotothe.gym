@@ -4,42 +4,60 @@ module Api::V1
         before_action :is_current_user?, except: [:create]
 
         def show
+            token = encode_token({ user_id: @user.id })
+            user_details = UserBlueprint.render_as_hash(@user)
             render json: {
-                success: true,
-                user: @user
+                status: "success",
+                messages: {},
+                response: {
+                    user: user_details
+                }
             }
         end
 
         def create
             @user = User.new(user_params)
             if @user.save
-                payload = { user_id: @user.id }
-                token = encode_token(payload)
+                token = encode_token({ user_id: @user.id })
+                user_details = UserBlueprint.render_as_hash(@user)
                 render json: {
-                    success: true,
-                    user: @user,
-                    jwt: token
+                    status: "success",
+                    messages: {},
+                    response: {
+                        user: user_details,
+                        jwt: token
+                    }
                 }
             else
                 render json: {
-                    success: false,
-                    errors: @user.errors.messages,
-                    error_message: @user.errors.full_messages.to_sentence
+                    status: "error",
+                    messages: {
+                        errors: @user.errors.messages,
+                        error_message: @user.errors.full_messages.to_sentence
+                    },
+                    response: {}
                 }
             end
         end
 
         def update
             if @user.update(user_params)
+                user_details = UserBlueprint.render_as_hash(@user)
                 render json: {
-                    success: true,
-                    user: @user
+                    status: "success",
+                    messages: {},
+                    response: {
+                        user: user_details
+                    }
                 }
             else
                 render json: {
-                    success: false,
-                    errors: @user.errors.messages,
-                    error_message: @user.errors.full_messages.to_sentence
+                    status: "error",
+                    messages: {
+                        errors: @user.errors.messages,
+                        error_message: @user.errors.full_messages.to_sentence
+                    },
+                    response: {}
                 }
             end
         end
@@ -47,12 +65,17 @@ module Api::V1
         def destroy
             if @user.destroy
                 render json: {
-                    success: true
+                    status: "success",
+                    messages: {},
+                    response: {}
                 }
             else
                 render json: {
-                    success: false,
-                    error_message: "Something happened. Please try again."
+                    status: "error",
+                    messages: {
+                        error_message: "Something happened. Please try again."
+                    },
+                    response: {}
                 }
             end
         end
@@ -67,8 +90,11 @@ module Api::V1
                 @user = User.find_by(id: params[:id])
                 if session_user != @user
                     render json: {
-                        success: false,
-                        error_message: "You're not authorized to view that page."
+                        status: "error",
+                        messages: {
+                            error_message: "You're not authorized to view that page."
+                        },
+                        response: {}
                     }
                 end
             end
