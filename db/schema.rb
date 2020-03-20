@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_15_220107) do
+ActiveRecord::Schema.define(version: 2020_03_20_032551) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,4 +24,14 @@ ActiveRecord::Schema.define(version: 2020_02_15_220107) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
+  create_table "workouts", force: :cascade do |t|
+    t.text "note"
+    t.datetime "date"
+    t.integer "user_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["user_id", "date"], name: "index_workouts_on_user_id_and_date"
+  end
+
+  add_foreign_key "workouts", "users"
 end
