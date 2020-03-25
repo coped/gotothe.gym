@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_24_223415) do
+ActiveRecord::Schema.define(version: 2020_03_25_054330) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -28,7 +28,7 @@ ActiveRecord::Schema.define(version: 2020_03_24_223415) do
     t.string "name"
     t.string "title"
     t.text "primer"
-    t.string "type"
+    t.string "movement_type"
     t.string "equipment"
     t.string "secondary_muscle_groups"
     t.text "steps"
