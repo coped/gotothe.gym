@@ -2,7 +2,7 @@ require 'test_helper'
 
 class UsersSignupTest < ActionDispatch::IntegrationTest
   def setup
-    @first_user = users(:first)
+    @first_user = users(:first_user)
   end
 
   test "user signup" do

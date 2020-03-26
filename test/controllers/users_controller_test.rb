@@ -2,8 +2,8 @@ require 'test_helper'
 
 class Api::UsersControllerTest < ActionDispatch::IntegrationTest
     def setup 
-        @user = users(:first)
-        @other_user = users(:second)
+        @user = users(:first_user)
+        @other_user = users(:second_user)
         @auth_header = "Bearer #{JWT.encode({ user_id: @user.id }, ENV['JWT_SECRET'])}"
     end
 

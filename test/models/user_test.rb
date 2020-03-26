@@ -6,6 +6,7 @@ class UserTest < ActiveSupport::TestCase
                      email: "new@user.com",
                      password: "foobar",
                      password_confirmation: "foobar")
+    @other_user = users(:second_user)
   end
 
   test "should be valid" do
@@ -33,15 +34,13 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "email should be unique" do
-    second_user = users(:second)
-    @user.email = second_user.email
+    @user.email = @other_user.email
     assert_not @user.valid?
   end
 
   test "email uniqueness should be case insensitive" do
-    second_user = users(:second)
-    second_user.email.upcase!
-    @user.email = second_user.email.downcase
+    @other_user.email.upcase!
+    @user.email = @other_user.email.downcase
     assert_not @user.valid?
   end
 

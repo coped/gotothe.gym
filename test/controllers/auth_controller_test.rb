@@ -2,7 +2,7 @@ require 'test_helper'
 
 class Api::AuthControllerTest < ActionDispatch::IntegrationTest
     def setup
-        @user = users(:first)
+        @user = users(:first_user)
     end
 
     test "should respond with JWT and user when provided with correct credentials" do

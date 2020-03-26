@@ -2,8 +2,8 @@ require 'test_helper'
 
 class UsersLoginTest < ActionDispatch::IntegrationTest
   def setup
-    @user = users(:first)
-    @other_user = users(:second)
+    @user = users(:first_user)
+    @other_user = users(:second_user)
   end
 
   test "user login" do

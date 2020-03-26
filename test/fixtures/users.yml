@@ -4,12 +4,12 @@
 # model remove the '{}' from the fixture names and add the columns immediately
 # below each fixture, per the syntax in the comments below
 #
-first:
-  name: first_user
+first_user:
+  name: first_user_name
   email: first@user.com
   password_digest: <%= User.digest("foobar") %>
 
-second:
-  name: second_user
+second_user:
+  name: second_user_name
   email: second@user.com
   password_digest: <%= User.digest("foobar") %>
