@@ -5,20 +5,34 @@
 # below each fixture, per the syntax in the comments below
 #
 example_exercise:
-  id: "0001"
+  image_id: "0001"
   name: "static-neck-flexion-extension"
   title: "Static Neck Flexion and Extension"
   primer: "An exercise to either build or warm-up front and back neck strength."
-  type: "isometric"
+  movement_type: "isometric"
   secondary_muscle_groups: ""
   equipment: "body"
-  steps: "An exercise to either build or warm-up front and back neck muscles.
-          Stand or sit with your head in neutral position.
-          Place both of your hands on your forehead.
-          Press your head against your hands and contract your neck muscles.
-          Keep your head from moving forward. Hold for at least 30 seconds.
+  steps: "An exercise to either build or warm-up front and back neck muscles.\n
+          Stand or sit with your head in neutral position.\n
+          Place both of your hands on your forehead.\n
+          Press your head against your hands and contract your neck muscles.\n
+          Keep your head from moving forward. Hold for at least 30 seconds.\n
           Repeat with hands on the back of your head, pressing against them."
   tips: ""
   
-two: {}
-# column: value
+other_exercise:
+  image_id: "0020"
+  name: "back-flys-exercise-band"
+  title: "Back Fly's with Exercise Band"
+  primer: "This is an exercise for shoulder, middle back and triceps strengthening."
+  movement_type: "isolation"
+  secondary_muscle_groups: "triceps brachii
+                            latissimus dorsi"
+  equipment: "exercise band"
+  steps: "Place an exercise band around a post or machine at mid chest height.\n
+          Stand with your feet shoulder width apart, abs drawn in and knees slightly bent.\n
+          Stand back from the post so there is tension in the band, grasping the band with your arms extended in front of you and a slight bend in your elbows; this is your starting position.\n
+          Bring your arms back in a controlled motion till they are parallel at your sides and in line with your shoulders.\n
+          Slowly return your arms to the starting position in front of your chest.\n
+          Repeat."
+  tips: "Maintain a good upright posture at all times during this exercise ensuring you do not arch your back."
