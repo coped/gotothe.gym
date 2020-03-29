@@ -13,3 +13,4 @@ second_user:
   name: second_user_name
   email: second@user.com
   password_digest: <%= User.digest("foobar") %>
+  

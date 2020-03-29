@@ -2,7 +2,7 @@ require 'test_helper'
 
 class UserTest < ActiveSupport::TestCase
   def setup
-    @user = User.new(name: "New User",
+    @user = User.create!(name: "New User",
                      email: "new@user.com",
                      password: "foobar",
                      password_confirmation: "foobar")
@@ -74,5 +74,13 @@ class UserTest < ActiveSupport::TestCase
     @user.password = "foobar"
     @user.password_confirmation = ""
     assert_not @user.valid?
+  end
+
+  test "workout should be created when created through user association" do
+    assert_difference -> { Workout.count }, 1 do
+      @user.workouts.create!(
+        date: DateTime.now
+      )
+    end
   end
 end

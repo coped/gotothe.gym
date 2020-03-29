@@ -1,6 +1,6 @@
 class MuscleGroup < ApplicationRecord
     # === Associations ===
-    has_many :exercise_muscle_groups, foreign_key: :muscle_group_id
+    has_many :exercise_muscle_groups
     has_many :exercises, through: :exercise_muscle_groups
 
     # === Validations ===

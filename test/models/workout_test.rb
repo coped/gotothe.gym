@@ -2,7 +2,11 @@ require 'test_helper'
 
 class WorkoutTest < ActiveSupport::TestCase
   def setup
-    @workout = workouts(:example_workout)
+    @user = users(:first_user)
+    @workout = @user.workouts.create!(
+      note: "REMEMBER TO SQUEEZE.",
+      date: DateTime.now
+    )
   end
 
   test "workout is valid" do

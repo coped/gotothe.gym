@@ -4,11 +4,3 @@
 # model remove the '{}' from the fixture names and add the columns immediately
 # below each fixture, per the syntax in the comments below
 #
-
-# NOTE: Test suite crashes when example_workout's associated user is set to first_user
-example_workout:
-  note: "REMEMBER TO SQUEEZE."
-  date: <%= DateTime.now %>
-  user: second_user
-
-

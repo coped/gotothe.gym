@@ -2,7 +2,7 @@ require 'test_helper'
 
 class MuscleGroupTest < ActiveSupport::TestCase
   def setup
-    @muscle_group = muscle_groups(:example_muscle_group)
+    @muscle_group = MuscleGroup.create!(name: "deltoid")
   end
 
   test "muscle group is valid" do
