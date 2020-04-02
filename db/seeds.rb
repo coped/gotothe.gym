@@ -16,7 +16,7 @@ User.create(
 end
 
 # Seed exercise data from lib/exercises
-exercises = Exercise.parsed_exercises
+exercises = ParseExercises.data
 
 muscle_groups = exercises.reduce([]) do |total, exercise|
     exercise["primary"].each do |group|
