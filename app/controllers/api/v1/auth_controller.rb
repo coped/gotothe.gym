@@ -1,12 +1,12 @@
 module Api::V1
     class AuthController < ApplicationController
-        skip_before_action :require_login, only: [:create]
+        skip_before_action :is_authorized?, only: [:create]
 
         def create
             @user = User.find_by(email: login_params[:email])
             if @user && @user.authenticate(login_params[:password])
 
-                token = encode_token({ user_id: @user.id })
+                token = JsonWebToken.encode({ user_id: @user.id })
                 user_details = UserBlueprint.render_as_hash(@user)
 
                 render json: {
@@ -28,26 +28,13 @@ module Api::V1
             end
         end
 
-        def auto_login
-            if session_user
-                render json: { 
-                    status: "success",
-                    messages: {},
-                    response: {}
-                }
-            else
-                render json: { 
-                    status: "error",
-                    messages: {
-                        error_message: "Not logged in."
-                    },
-                    response: {}
-                }
-            end
-        end
-
-        def logout
-            @session_user = nil
+        def destroy
+            @current_user = nil
+            render json: {
+                status: "success",
+                messages: {},
+                response: {}
+            }
         end
 
         private

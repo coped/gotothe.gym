@@ -13,7 +13,7 @@ class UsersSignupTest < ActionDispatch::IntegrationTest
                                                 password: "",
                                                 password_confirmation: "" } }
     end
-    assert_equal json_response["status"], "error"
+    assert_equal "error", json_response["status"]
     assert_includes json_response["messages"], "error_message"
     assert_empty json_response["response"]
     assert_equal json_response["messages"]["errors"].size, 2
@@ -25,7 +25,7 @@ class UsersSignupTest < ActionDispatch::IntegrationTest
                                                 password_confirmation: "foobar" } }
     end
     user = User.last
-    assert_equal json_response["status"], "success"
+    assert_equal "success", json_response["status"]
     assert_includes json_response["response"], "user"
     assert_includes json_response["response"], "jwt"
     assert_equal user.id, json_response["response"]["user"]["id"]

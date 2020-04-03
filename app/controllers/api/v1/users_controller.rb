@@ -1,10 +1,9 @@
 module Api::V1
     class UsersController < ApplicationController
-        skip_before_action :require_login, only: [:create]
+        skip_before_action :is_authorized?, only: [:create]
         before_action :is_current_user?, except: [:create]
 
         def show
-            token = encode_token({ user_id: @user.id })
             user_details = UserBlueprint.render_as_hash(@user)
             render json: {
                 status: "success",
@@ -18,7 +17,7 @@ module Api::V1
         def create
             @user = User.new(user_params)
             if @user.save
-                token = encode_token({ user_id: @user.id })
+                token = JsonWebToken.encode({ user_id: @user.id })
                 user_details = UserBlueprint.render_as_hash(@user)
                 render json: {
                     status: "success",
@@ -88,7 +87,7 @@ module Api::V1
 
             def is_current_user?
                 @user = User.find_by(id: params[:id])
-                if session_user != @user
+                if @current_user != @user
                     render json: {
                         status: "error",
                         messages: {

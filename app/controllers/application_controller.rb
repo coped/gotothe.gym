@@ -1,46 +1,21 @@
 class ApplicationController < ActionController::API
-    before_action :require_login
+    before_action :is_authorized?
 
-    def encode_token(payload)
-        JWT.encode(payload, ENV['JWT_SECRET'])
-    end
+    private
 
-    def decoded_token
-        auth_header = request.headers['Authorization']
-        if auth_header
-            token = auth_header.split(" ").last
-            begin
-                JWT.decode(token, ENV['JWT_SECRET'], true, algorithm: "HS256")
-            rescue JWT::DecodeError
-                []
+        def authorize_request
+            @current_user = (AuthorizeApiRequest.new(request.headers).call)
+        end
+
+        def is_authorized?
+            if !authorize_request
+                render json: {
+                    status: "error",
+                    messages: {
+                        error_message: "You're not authorized to view that page."
+                    },
+                    response: {}
+                }
             end
         end
-    end
-
-    def session_user
-        decoded_hash = decoded_token
-        if decoded_hash.present?
-            user_id = decoded_hash[0]['user_id']
-            @session_user ||= User.find_by(id: user_id)
-        else
-            nil
-        end
-    end
-
-    def logged_in?
-        !!session_user
-    end
-
-    def require_login
-        if !logged_in?
-            render json: {
-                status: "error", 
-                messages: {
-                    error_message: "Not logged in"
-                },
-                response: {}
-            }, 
-            status: :unauthorized
-        end
-    end
 end
