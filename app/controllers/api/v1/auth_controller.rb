@@ -29,7 +29,6 @@ module Api::V1
         end
 
         def destroy
-            @current_user = nil
             render json: {
                 status: "success",
                 messages: {},

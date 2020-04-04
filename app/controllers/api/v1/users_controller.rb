@@ -86,8 +86,7 @@ module Api::V1
             end
 
             def is_current_user?
-                @user = User.find_by(id: params[:id])
-                if @current_user != @user
+                if @current_user.id != params[:id].to_i
                     render json: {
                         status: "error",
                         messages: {
@@ -95,6 +94,8 @@ module Api::V1
                         },
                         response: {}
                     }
+                else
+                    @user = @current_user
                 end
             end
     end

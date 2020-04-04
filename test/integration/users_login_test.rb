@@ -34,5 +34,8 @@ class UsersLoginTest < ActionDispatch::IntegrationTest
     assert_equal "error", json_response["status"]
     assert_includes json_response["messages"], "error_message"
     assert_empty json_response["response"]
+    # Logging out 
+    delete api_v1_user_path(@user), headers: { authorization: "Bearer #{user_token}" }
+    assert_includes json_response["status"], "success"
   end
 end
