@@ -5,16 +5,12 @@ module Api::V1
         def create
             @user = User.find_by(email: login_params[:email])
             if @user && @user.authenticate(login_params[:password])
-
-                token = JsonWebToken.encode({ user_id: @user.id })
-                user_details = UserBlueprint.render_as_hash(@user)
-
                 render json: {
                     status: "success",
                     messages: {},
                     response: {
-                        user: user_details,
-                        jwt: token
+                        user: @user.basic_details,
+                        jwt: @user.generate_jwt
                     }
                 }
             else

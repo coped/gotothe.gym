@@ -4,12 +4,11 @@ module Api::V1
         before_action :is_current_user?, except: [:create]
 
         def show
-            user_details = UserBlueprint.render_as_hash(@user)
             render json: {
                 status: "success",
                 messages: {},
                 response: {
-                    user: user_details
+                    user: @user.basic_details
                 }
             }
         end
@@ -17,14 +16,12 @@ module Api::V1
         def create
             @user = User.new(user_params)
             if @user.save
-                token = JsonWebToken.encode({ user_id: @user.id })
-                user_details = UserBlueprint.render_as_hash(@user)
                 render json: {
                     status: "success",
                     messages: {},
                     response: {
-                        user: user_details,
-                        jwt: token
+                        user: @user.basic_details,
+                        jwt: @user.generate_jwt
                     }
                 }
             else
@@ -41,12 +38,11 @@ module Api::V1
 
         def update
             if @user.update(user_params)
-                user_details = UserBlueprint.render_as_hash(@user)
                 render json: {
                     status: "success",
                     messages: {},
                     response: {
-                        user: user_details
+                        user: @user.basic_details
                     }
                 }
             else

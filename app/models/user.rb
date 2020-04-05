@@ -19,6 +19,18 @@ class User < ApplicationRecord
     validates :password, length: { minimum: 6 },
                          allow_nil: true
 
+    # === Instance methods ===
+    def basic_details
+        UserBlueprint.render_as_hash(
+            self,
+            view: :basic_details
+        )
+    end
+
+    def generate_jwt
+        JsonWebToken.encode({ user_id: self.id })
+    end
+
     # === Class methods ===
     def User.digest(string)
         BCrypt::Password.create(string)
