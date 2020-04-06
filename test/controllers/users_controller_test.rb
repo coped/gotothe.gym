@@ -4,7 +4,7 @@ class Api::UsersControllerTest < ActionDispatch::IntegrationTest
     def setup 
         @user = users(:first_user)
         @other_user = users(:second_user)
-        @auth_header = "Bearer " + JsonWebToken.encode({ user_id: @user.id })
+        @auth_header = "Bearer " + JsonWebToken.encode(payload: { user_id: @user.id })
     end
 
     test "should give user when authorized" do

@@ -28,7 +28,7 @@ class User < ApplicationRecord
     end
 
     def generate_jwt
-        JsonWebToken.encode({ user_id: self.id })
+        JsonWebToken.encode(payload: { user_id: self.id })
     end
 
     # === Class methods ===

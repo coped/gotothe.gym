@@ -1,7 +1,7 @@
 class AuthorizeApiRequest
     attr_reader :headers
 
-    def initialize(headers = {})
+    def initialize(headers: {})
         @headers = headers
     end
 
@@ -17,7 +17,7 @@ class AuthorizeApiRequest
 
         def decoded_token
             begin
-                @decoded_token ||= JsonWebToken.decode(http_auth_header)
+                @decoded_token ||= JsonWebToken.decode(token: http_auth_header)
             rescue Exception => e
                 nil
             end

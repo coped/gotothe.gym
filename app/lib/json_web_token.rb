@@ -1,10 +1,10 @@
 class JsonWebToken
-    def self.encode(payload, expiration = 24.hours.from_now)
+    def self.encode(payload:, expiration: 24.hours.from_now)
         payload["expiration"] = expiration.to_i
         JWT.encode(payload, ENV['JWT_SECRET'])
     end
 
-    def self.decode(token)
+    def self.decode(token:)
         begin
             payload = JWT.decode(
                 token, 

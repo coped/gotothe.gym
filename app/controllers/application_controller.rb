@@ -4,7 +4,7 @@ class ApplicationController < ActionController::API
     private
 
         def authorize_request
-            @current_user = (AuthorizeApiRequest.new(request.headers).call)
+            @current_user = (AuthorizeApiRequest.new(headers: request.headers).call)
         end
 
         def is_authorized?
