@@ -15,8 +15,7 @@ class Exercise < ApplicationRecord
 	validates :title,                   presence: true,
                                         length: { maximum: 255 }
                                         
-	validates :primer,                  presence: true,
-                                        length: { maximum: 500 }
+	validates :primer,                  length: { maximum: 500 }
                                         
 	validates :movement_type,           presence: true,
                                         length: { maximum: 255 }

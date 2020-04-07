@@ -4,7 +4,8 @@ class AuthorizeApiRequest
     def initialize(headers: {})
         @headers = headers
     end
-
+    
+    # Entry point for service object - Find and return user from JWT payload
     def call
         user
     end

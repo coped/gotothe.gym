@@ -45,11 +45,6 @@ class ExerciseTest < ActiveSupport::TestCase
     assert_not @exercise.valid?
   end
 
-  test "primer should always be present" do
-    @exercise.primer = ""
-    assert_not @exercise.valid?
-  end
-
   test "primer should not exceed maximum character length of 500 characters" do
     @exercise.primer = "e" * 501
     assert_not @exercise.valid?

@@ -3,7 +3,7 @@ class ParseExercises
         @starting_directory = starting_directory
     end
 
-    # Parse exercise JSON data from lib/exercises
+    # Entry point for service object - Return parsed exercise JSON data from lib/exercises
     def call
         begin
             data
@@ -22,7 +22,6 @@ class ParseExercises
                 exercise = JSON.parse(
                     file_contents(directory: exercise_dir, file: json_file)
                 )
-                
                 total << exercise
             end
         end

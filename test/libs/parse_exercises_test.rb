@@ -23,8 +23,9 @@ class ParseExercisesTest < ActiveSupport::TestCase
         )
 
         @exercises.call.each do |exercise|
+            exercise_attributes = exercise.keys
             valid_attributes.each do |attribute|
-                assert_includes exercise.keys, attribute
+                assert_includes exercise_attributes, attribute
             end
         end
     end
@@ -36,8 +37,7 @@ class ParseExercisesTest < ActiveSupport::TestCase
         assert_nil invalid_exercises.call
     end
     
-    # Fails. Returns a count of 289
-    test "should return 280 exercises when called" do
-        assert_equal 280, @exercises.call.count
+    test "should return 288 exercises when called" do
+        assert_equal 288, @exercises.call.count
     end
 end

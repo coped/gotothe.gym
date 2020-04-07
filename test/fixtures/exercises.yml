@@ -6,7 +6,7 @@
 #
 example_exercise:
   image_id: "0001"
-  name: "static-neck-flexion-extension"
+  name: "example-exercise-name"
   title: "Static Neck Flexion and Extension"
   primer: "An exercise to either build or warm-up front and back neck strength."
   movement_type: "isometric"
@@ -22,7 +22,7 @@ example_exercise:
   
 other_exercise:
   image_id: "0020"
-  name: "back-flys-exercise-band"
+  name: "other-exercise-name"
   title: "Back Fly's with Exercise Band"
   primer: "This is an exercise for shoulder, middle back and triceps strengthening."
   movement_type: "isolation"
