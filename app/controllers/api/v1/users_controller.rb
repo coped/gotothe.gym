@@ -4,74 +4,55 @@ module Api::V1
         before_action :is_current_user?, except: [:create]
 
         def show
-            render json: {
-                status: "success",
-                messages: {},
-                response: {
-                    user: @user.basic_details
-                }
-            }
+            json = JsonResponse.new(
+                payload: @user.basic_details
+            )
+            render json: json.response, status: :ok
         end
 
         def create
             @user = User.new(user_params)
             if @user.save
-                render json: {
-                    status: "success",
-                    messages: {},
-                    response: {
-                        user: @user.basic_details,
-                        jwt: @user.generate_jwt
-                    }
-                }
+                json = JsonResponse.new(
+                    payload: @user.basic_details(with_jwt: true)
+                )
+                render json: json.response, status: :ok
             else
-                render json: {
-                    status: "error",
-                    messages: {
-                        errors: @user.errors.messages,
-                        error_message: @user.errors.full_messages.to_sentence
-                    },
-                    response: {}
-                }
+                messages = [@user.errors.full_messages.to_sentence]
+                json = JsonResponse.new(
+                    error: true, 
+                    messages: messages
+                )
+                render json: json.response, status: :bad_request
             end
         end
 
         def update
             if @user.update(user_params)
-                render json: {
-                    status: "success",
-                    messages: {},
-                    response: {
-                        user: @user.basic_details
-                    }
-                }
+                json = JsonResponse.new(
+                    payload: @user.basic_details
+                )
+                render json: json.response, status: :ok
             else
-                render json: {
-                    status: "error",
-                    messages: {
-                        errors: @user.errors.messages,
-                        error_message: @user.errors.full_messages.to_sentence
-                    },
-                    response: {}
-                }
+                messages = [@user.errors.full_messages.to_sentence]
+                json = JsonResponse.new(
+                    error: true,
+                    messages: messages
+                )
+                render json: json.response, status: :bad_request
             end
         end
 
         def destroy
             if @user.destroy
-                render json: {
-                    status: "success",
-                    messages: {},
-                    response: {}
-                }
+                render json: JsonResponse.new.response
             else
-                render json: {
-                    status: "error",
-                    messages: {
-                        error_message: "Something happened. Please try again."
-                    },
-                    response: {}
-                }
+                messages = ["Something happened when deleting account. Please try again."]
+                json = JsonResponse.new(
+                    error: true,
+                    messages: messages
+                )
+                render json: json.response, status: :internal_server_error
             end
         end
 
@@ -83,13 +64,12 @@ module Api::V1
 
             def is_current_user?
                 if @current_user.id != params[:id].to_i
-                    render json: {
-                        status: "error",
-                        messages: {
-                            error_message: "You're not authorized to view that page."
-                        },
-                        response: {}
-                    }
+                    messages = ["You're not authorized to view that page."]
+                    json = JsonResponse.new(
+                        error: true,
+                        messages: messages
+                    )
+                    render json: json.response, status: :unauthorized
                 else
                     @user = @current_user
                 end

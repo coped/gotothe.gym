@@ -5,31 +5,17 @@ module Api::V1
         def create
             @user = User.find_by(email: login_params[:email])
             if @user && @user.authenticate(login_params[:password])
-                render json: {
-                    status: "success",
-                    messages: {},
-                    response: {
-                        user: @user.basic_details,
-                        jwt: @user.generate_jwt
-                    }
-                }
+                json = JsonResponse.new(payload: @user.basic_details(with_jwt: true))
+                render json: json.response, status: :ok
             else
-                render json: {
-                    status: "error",
-                    messages: {
-                        error_message: "Invalid email or password."
-                    },
-                    response: {}
-                }
+                messages = ["Invalid email or password."]
+                json = JsonResponse.new(error: true, messages: messages)
+                render json: json.response, status: :unauthorized
             end
         end
 
         def destroy
-            render json: {
-                status: "success",
-                messages: {},
-                response: {}
-            }
+            render json: JsonResponse.new.response, status: :ok
         end
 
         private

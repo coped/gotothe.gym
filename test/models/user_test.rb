@@ -86,9 +86,9 @@ class UserTest < ActiveSupport::TestCase
 
   test "basic details should return a hash of basic details" do
     details = @user.basic_details
-    details.each do |key, value|
+    details[:user].each do |key, value|
       assert_includes @user.attributes.keys, key.to_s
-      assert_equal @user.send(key), details[key]
+      assert_equal @user.send(key), value
     end
   end
 end

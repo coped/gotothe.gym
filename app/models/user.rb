@@ -20,11 +20,14 @@ class User < ApplicationRecord
                          allow_nil: true
 
     # === Instance methods ===
-    def basic_details
-        UserBlueprint.render_as_hash(
+    def basic_details(with_jwt: false)
+        details = UserBlueprint.render_as_hash(
             self,
-            view: :basic_details
+            view: :basic_details,
+            root: :user
         )
+        details[:jwt] = generate_jwt if with_jwt
+        details
     end
 
     def generate_jwt

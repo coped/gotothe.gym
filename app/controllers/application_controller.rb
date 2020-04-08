@@ -9,13 +9,9 @@ class ApplicationController < ActionController::API
 
         def is_authorized?
             if !authorize_request
-                render json: {
-                    status: "error",
-                    messages: {
-                        error_message: "You're not authorized to view that page."
-                    },
-                    response: {}
-                }
+                messages = ["You're not authorized to view that page."]
+                json = JsonResponse.new(error: true, messages: messages)
+                render json: json.response, status: :unauthorized
             end
         end
 end
