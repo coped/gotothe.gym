@@ -8,7 +8,7 @@ module Api::V1
                 json = JsonResponse.new(payload: @user.basic_details(with_jwt: true))
                 render json: json.response, status: :ok
             else
-                messages = ["Invalid email or password."]
+                messages = [Messages.invalid_credentials]
                 json = JsonResponse.new(error: true, messages: messages)
                 render json: json.response, status: :unauthorized
             end

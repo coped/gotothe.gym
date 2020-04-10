@@ -18,7 +18,7 @@ module Api::V1
                 )
                 render json: json.response, status: :ok
             else
-                messages = [@user.errors.full_messages.to_sentence]
+                messages = [Messages.user_errors(@user)]
                 json = JsonResponse.new(
                     error: true, 
                     messages: messages
@@ -34,7 +34,7 @@ module Api::V1
                 )
                 render json: json.response, status: :ok
             else
-                messages = [@user.errors.full_messages.to_sentence]
+                messages = [Messages.user_errors(@user)]
                 json = JsonResponse.new(
                     error: true,
                     messages: messages
@@ -47,7 +47,7 @@ module Api::V1
             if @user.destroy
                 render json: JsonResponse.new.response
             else
-                messages = ["Something happened when deleting account. Please try again."]
+                messages = [Messages.destroy_error]
                 json = JsonResponse.new(
                     error: true,
                     messages: messages
@@ -64,7 +64,7 @@ module Api::V1
 
             def is_current_user?
                 if @current_user.id != params[:id].to_i
-                    messages = ["You're not authorized to view that page."]
+                    messages = [Messages.unauthorized]
                     json = JsonResponse.new(
                         error: true,
                         messages: messages
