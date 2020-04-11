@@ -26,20 +26,4 @@ class Api::AuthControllerTest < ActionDispatch::IntegrationTest
         delete api_v1_logout_path, headers: { authorization: @auth_header }
         assert_equal 'success', json_response['status']
     end
-
-    test 'AuthorizeApiRequest service object should return correct user' do
-        get api_v1_user_path(@user), headers: { authorization: @auth_header }
-        assert_equal @user, AuthorizeApiRequest.new(headers: request.headers).call
-        assert_equal @user, assigns(:current_user)
-    end
-
-    test 'AuthorizeApiRequest service object should return nil given invalid authorization' do
-        get api_v1_user_path(@user), headers: { authorization: 'Bearer invalid-token' }
-        assert_nil AuthorizeApiRequest.new(headers: request.headers).call
-    end
-
-    test 'AuthorizeApiRequest service object should return nil when given nonsense authorization' do
-        get api_v1_user_path(@user), headers: { authorization: 'foobar' }
-        assert_nil AuthorizeApiRequest.new(headers: request.headers).call
-    end
 end

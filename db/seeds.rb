@@ -16,7 +16,7 @@ User.create(
 end
 
 # Parse exercise data from lib/exercises
-exercises = ExerciseData.parse
+exercises = ExerciseData.new
 
 # Seed exercise data to database
-ExerciseData.seed(exercises: exercises)
+exercises.seed

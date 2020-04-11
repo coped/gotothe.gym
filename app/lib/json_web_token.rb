@@ -1,4 +1,4 @@
-class JsonWebToken
+module JsonWebToken
     def self.encode(payload:, expiration: 24.hours.from_now)
         payload = HashWithIndifferentAccess.new(payload)
         payload[:expiration] = expiration.to_i
