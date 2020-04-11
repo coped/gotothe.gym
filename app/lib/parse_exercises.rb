@@ -1,22 +1,10 @@
-class ParseExercises
-    def initialize(starting_directory: Rails.root.join('lib', 'exercises'))
-        @starting_directory = starting_directory
-    end
-
-    # Entry point for service object - Return parsed exercise JSON data from lib/exercises
-    def call
-        begin
-            data
-        rescue Exception => e
-            p e if Rails.env.development?
-            nil
-        end
-    end
+module ParseExercises
+    @@main_directory = Rails.root.join('lib', 'exercises')
 
     private
 
-        def data
-            @data ||= all_exercises.reduce([]) do |total, exercise_dir|
+        def get_data
+            all_exercises.reduce([]) do |total, exercise_dir|
                 json_file = find_json_file(files: files_in(directory: exercise_dir))
                 
                 exercise = JSON.parse(
@@ -28,12 +16,12 @@ class ParseExercises
 
         def all_exercises
             Dir.children(
-                @starting_directory
+                @@main_directory
             )
         end
 
         def files_in(directory:)
-            Dir.children(@starting_directory + directory)
+            Dir.children(@@main_directory + directory)
         end
 
         def find_json_file(files:)
@@ -41,6 +29,6 @@ class ParseExercises
         end
 
         def file_contents(directory:, file:)
-            File.read(@starting_directory + directory + file)
+            File.read(@@main_directory + directory + file)
         end
 end
