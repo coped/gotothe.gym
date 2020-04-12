@@ -1,5 +1,5 @@
 module ApiResponse
-    def self.build_json(error: false, messages: nil, payload: nil)
+    def self.json(error: false, messages: nil, payload: nil)
         json = Hash.new
         json[:status] = (error) ? :error : :success
         json[:messages] = messages if messages

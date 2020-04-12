@@ -4,7 +4,7 @@ module Api::V1
         before_action :is_current_user?, except: [:create]
 
         def show
-            json = ApiResponse.build_json(
+            json = ApiResponse.json(
                 payload: @user.basic_details
             )
             render json: json, status: :ok
@@ -13,13 +13,13 @@ module Api::V1
         def create
             @user = User.new(user_params)
             if @user.save
-                json = ApiResponse.build_json(
+                json = ApiResponse.json(
                     payload: @user.basic_details(with_jwt: true)
                 )
                 render json: json, status: :ok
             else
                 messages = [Messages.user_errors(@user)]
-                json = ApiResponse.build_json(
+                json = ApiResponse.json(
                     error: true, 
                     messages: messages
                 )
@@ -29,13 +29,13 @@ module Api::V1
 
         def update
             if @user.update(user_params)
-                json = ApiResponse.build_json(
+                json = ApiResponse.json(
                     payload: @user.basic_details
                 )
                 render json: json, status: :ok
             else
                 messages = [Messages.user_errors(@user)]
-                json = ApiResponse.build_json(
+                json = ApiResponse.json(
                     error: true,
                     messages: messages
                 )
@@ -45,10 +45,10 @@ module Api::V1
 
         def destroy
             if @user.destroy
-                render json: ApiResponse.build_json
+                render json: ApiResponse.json
             else
                 messages = [Messages.destroy_error]
-                json = ApiResponse.build_json(
+                json = ApiResponse.json(
                     error: true,
                     messages: messages
                 )
@@ -65,7 +65,7 @@ module Api::V1
             def is_current_user?
                 if @current_user.id != params[:id].to_i
                     messages = [Messages.unauthorized]
-                    json = ApiResponse.build_json(
+                    json = ApiResponse.json(
                         error: true,
                         messages: messages
                     )
