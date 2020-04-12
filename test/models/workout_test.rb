@@ -27,4 +27,10 @@ class WorkoutTest < ActiveSupport::TestCase
     @workout.date = nil
     assert_not @workout.valid?
   end
+
+  test "should be destroyed when user destroyed" do
+    assert_difference -> { Workout.count }, -1 do
+      @user.destroy
+    end
+  end
 end

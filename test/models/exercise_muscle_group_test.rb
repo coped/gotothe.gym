@@ -40,4 +40,16 @@ class ExerciseMuscleGroupTest < ActiveSupport::TestCase
       @muscle_group.exercises << @exercise
     end
   end
+
+  test "should be destroyed when muscle group destroyed" do
+    assert_difference -> { ExerciseMuscleGroup.count }, -1 do
+      @muscle_group.destroy
+    end
+  end
+
+  test "should be destroyed when exercise destroyed" do
+    assert_difference -> { ExerciseMuscleGroup.count }, -1 do
+      @exercise.destroy
+    end
+  end
 end

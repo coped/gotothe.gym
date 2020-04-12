@@ -1,6 +1,7 @@
 class Exercise < ApplicationRecord
 	# === Associations ====
-	has_many :exercise_muscle_groups
+	has_many :workout_exercises, dependent: :destroy
+	has_many :exercise_muscle_groups, dependent: :destroy
 	has_many :muscle_groups, through: :exercise_muscle_groups
 
 	# === Validations ===

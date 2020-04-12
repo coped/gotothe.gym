@@ -51,6 +51,18 @@ class WorkoutExerciseTest < ActiveSupport::TestCase
     assert_includes @workout.exercises, @exercise
   end
 
+  test "should be destroyed when workout destroyed" do
+    assert_difference -> { WorkoutExercise.count }, -1 do
+      @workout.destroy
+    end
+  end
+
+  test "should be destroyed when exercise destroyed" do
+    assert_difference -> { WorkoutExercise.count }, -1 do
+      @exercise.destroy
+    end
+  end
+
   # Currently fails, due to absence of order attribute
   test "workout_exercise entry should be created when created through an association" do
     assert_difference -> { WorkoutExercise.count }, 1 do

@@ -3,7 +3,7 @@ class User < ApplicationRecord
     before_save :downcase_email
 
     # === Associations ===
-    has_many :workouts
+    has_many :workouts, dependent: :destroy
 
     # === Validations ===
     validates :email,    presence: true,
