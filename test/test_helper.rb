@@ -14,4 +14,8 @@ class ActiveSupport::TestCase
   def json_response
     JSON.parse(response.body)
   end
+
+  def auth_header(user)
+    { authorization: 'Bearer ' + JsonWebToken.encode(payload: { user_id: user.id }) }
+  end
 end

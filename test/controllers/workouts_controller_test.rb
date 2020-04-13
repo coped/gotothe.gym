@@ -6,11 +6,11 @@ class Api::WorkoutsControllerTest < ActionDispatch::IntegrationTest
         @workout = @user.workouts.create!(date: DateTime.now)
         @other_user = users(:second_user)
         @other_user_workout = @other_user.workouts.create!(date: DateTime.now)
-        @auth_header = 'Bearer ' + JsonWebToken.encode(payload: { user_id: @user.id })
+        @auth_header = auth_header(@user)
     end
 
     test "should succesfully show a workout" do
-        get api_v1_workout_path(@workout), headers: { authorization: @auth_header }
+        get api_v1_workout_path(@workout), headers: @auth_header
         assert_equal 'success', json_response['status']
         assert_includes json_response['payload'], 'workout'
     end
@@ -22,7 +22,7 @@ class Api::WorkoutsControllerTest < ActionDispatch::IntegrationTest
     end
 
     test "should not show different users workout" do
-        get api_v1_workout_path(@other_user_workout), headers: { authorization: @auth_header }
+        get api_v1_workout_path(@other_user_workout), headers: @auth_header
         assert_equal 'error', json_response['status']
         assert_nil json_response['payload']
     end
@@ -30,7 +30,7 @@ class Api::WorkoutsControllerTest < ActionDispatch::IntegrationTest
     test "should successfully create Workout entry" do
         assert_difference -> { Workout.count }, 1 do
             post api_v1_workouts_path, params: { workout: { date: DateTime.now } }, 
-                                       headers: { authorization: @auth_header }
+                                       headers: @auth_header
         end
         assert_equal 'success', json_response['status']
         assert_includes json_response['payload'], 'workout'
@@ -41,7 +41,7 @@ class Api::WorkoutsControllerTest < ActionDispatch::IntegrationTest
         assert_difference -> { WorkoutExercise.count }, 2 do
             post api_v1_workouts_path, params: { workout: { date: DateTime.now,
                                                             exercises: payload } }, 
-                                       headers: { authorization: @auth_header }
+                                       headers: @auth_header
         end
         assert_equal 'success', json_response['status']
         assert json_response['payload']['workout']['exercises'].present?
@@ -65,7 +65,7 @@ class Api::WorkoutsControllerTest < ActionDispatch::IntegrationTest
     test "should successfully update Workout entry" do
         assert_changes -> { @workout.date.to_s } do
             patch api_v1_workout_path(@workout), params: { workout: { date: DateTime.tomorrow } },
-                                                 headers: { authorization: @auth_header }
+                                                 headers: @auth_header
             @workout.reload
         end
         assert_equal 'success', json_response['status']
@@ -75,7 +75,7 @@ class Api::WorkoutsControllerTest < ActionDispatch::IntegrationTest
         payload = ["example-exercise-name", "other-exercise-name"]
         assert_difference -> { WorkoutExercise.count }, 2 do
             patch api_v1_workout_path(@workout), params: { workout: { exercises: payload } },
-                                                 headers: { authorization: @auth_header }
+                                                 headers: @auth_header
         end
         assert_equal 'success', json_response['status']
     end
@@ -85,7 +85,7 @@ class Api::WorkoutsControllerTest < ActionDispatch::IntegrationTest
         payload = ["other-exercise-name"]
         assert_no_difference -> { @workout.exercises.count } do
             patch api_v1_workout_path(@workout), params: { workout: { exercises: payload } },
-                                                 headers: { authorization: @auth_header }
+                                                 headers: @auth_header
             @workout.reload
         end
         assert_equal 'success', json_response['status']
@@ -111,7 +111,7 @@ class Api::WorkoutsControllerTest < ActionDispatch::IntegrationTest
     test "should not update Workout entry if different user" do
         assert_no_changes -> { @workout.date } do
             patch api_v1_workout_path(@other_user_workout), params: { workout: { date: DateTime.tomorrow } },
-                                                            headers: { authorization: @auth_header }
+                                                            headers: @auth_header
         end
         assert_equal 'error', json_response['status']
     end
@@ -120,14 +120,14 @@ class Api::WorkoutsControllerTest < ActionDispatch::IntegrationTest
         payload = ["example-exercise-name", "other-exercise-name"]
         assert_no_difference -> { WorkoutExercise.count } do
             patch api_v1_workout_path(@other_user_workout), params: { workout: { exercises: payload } },
-                                                            headers: { authorization: @auth_header }
+                                                            headers: @auth_header
         end
         assert_equal 'error', json_response['status']
     end
 
     test "should be destroyed" do
         assert_difference -> { Workout.count }, -1 do
-            delete api_v1_workout_path(@workout), headers: { authorization: @auth_header }
+            delete api_v1_workout_path(@workout), headers: @auth_header
         end
         assert_equal 'success', json_response['status']
     end
@@ -141,7 +141,7 @@ class Api::WorkoutsControllerTest < ActionDispatch::IntegrationTest
 
     test "should not be destroyed if different user" do
         assert_no_difference -> { Workout.count } do
-            delete api_v1_workout_path(@other_user_workout), headers: { authorization: @auth_header }
+            delete api_v1_workout_path(@other_user_workout), headers: @auth_header
         end
     end
 end

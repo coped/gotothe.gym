@@ -70,16 +70,17 @@ module Api::V1
                 tmp = {}
                 tmp[:note] = strong_params[:note] if strong_params[:note]
                 tmp[:date] = DateTime.parse(strong_params[:date]) if strong_params[:date]
-                tmp[:exercises] = find_exercises if find_exercises
+                if strong_params[:exercises].present?
+                    tmp[:exercises] = find_exercises(strong_params[:exercises]) 
+                end
                 tmp
             end
 
-            def find_exercises
-                if strong_params[:exercises].present?
-                    names = strong_params[:exercises]
-                    Exercise.where(name: names)
-                else
+            def find_exercises(exercise_names)
+                if exercise_names.empty?
                     []
+                else
+                    Exercise.where(name: exercise_names)
                 end
             end
     end

@@ -24,18 +24,19 @@ class UsersLoginTest < ActionDispatch::IntegrationTest
     assert_includes json_response['payload'], 'jwt'
     assert_includes json_response['payload'], 'user'
     user_token = json_response['payload']['jwt']
+    auth_header = 'Bearer ' + user_token
     # Viewing user page
-    get api_v1_user_path(@user), headers: { authorization: 'Bearer ' + user_token }
+    get api_v1_user_path(@user), headers: { authorization: auth_header }
     assert_equal 'success', json_response['status']
     assert_includes json_response['payload'], 'user'
     assert_equal @user.id, json_response['payload']['user']['id']
     # Attempting to view another user's page
-    get api_v1_user_path(@other_user), headers: { authorization: 'Bearer ' + user_token }
+    get api_v1_user_path(@other_user), headers: { authorization: auth_header }
     assert_equal 'error', json_response['status']
     assert json_response['messages'].present?
     assert_nil json_response['payload']
     # Logging out 
-    delete api_v1_user_path(@user), headers: { authorization: 'Bearer ' + user_token }
+    delete api_v1_user_path(@user), headers: { authorization: auth_header }
     assert_includes json_response['status'], 'success'
   end
 end

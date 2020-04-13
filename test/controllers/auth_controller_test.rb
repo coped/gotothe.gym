@@ -3,7 +3,7 @@ require 'test_helper'
 class Api::AuthControllerTest < ActionDispatch::IntegrationTest
     def setup
         @user = users(:first_user)
-        @auth_header = 'Bearer ' + JsonWebToken.encode(payload: { user_id: @user.id })
+        @auth_header = auth_header(@user)
     end
 
     test 'should respond with JWT and user when provided with correct credentials' do
@@ -23,7 +23,7 @@ class Api::AuthControllerTest < ActionDispatch::IntegrationTest
     end
 
     test 'should response with success upon delete' do
-        delete api_v1_logout_path, headers: { authorization: @auth_header }
+        delete api_v1_logout_path, headers: @auth_header
         assert_equal 'success', json_response['status']
     end
 end
