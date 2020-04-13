@@ -10,4 +10,14 @@ class Workout < ApplicationRecord
     validates :note,    length: { maximum: 10_000 }
 
     validates :date,    presence: true
+
+    # === Instance methods ===
+
+        def basic_details
+            WorkoutBlueprint.render_as_hash(
+                self,
+                view: :basic_details,
+                root: :workout
+            )
+        end
 end

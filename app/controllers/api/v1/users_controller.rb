@@ -69,7 +69,7 @@ module Api::V1
                         error: true,
                         messages: messages
                     )
-                    render json: json, status: :unauthorized
+                    return render json: json, status: :unauthorized
                 else
                     @user = @current_user
                 end

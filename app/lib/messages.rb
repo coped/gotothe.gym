@@ -3,7 +3,7 @@ module Messages
         HashWithIndifferentAccess.new(
             {
                 type: "warning",
-                message: "You're not authorized to view that page."
+                message: "You're not authorized to do that."
             }
         )
     end
@@ -26,16 +26,20 @@ module Messages
                 }
             )
         else
-            raise ArgumentError, "User has no errors"
+            raise ArgumentError, "User has no errors present."
         end
     end
 
-    def self.destroy_error
-        HashWithIndifferentAccess.new(
-            {
-                type: "warning",
-                message: "Something happened when trying to delete the account. Please try again."
-            }
-        )
+    def self.workout_errors(workout)
+        if workout.errors.present?
+            HashWithIndifferentAccess.new(
+                {
+                    type: "warning",
+                    message: workout.errors.full_messages.to_sentence
+                }
+            )
+        else
+            raise ArgumentError, "Workout has no errors present."
+        end
     end
 end

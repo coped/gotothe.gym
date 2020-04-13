@@ -1,5 +1,5 @@
 # Create mock user data in database
-User.create(
+user = User.create!(
     name: "First User",
     email: "first@user.com",
     password: "foobar",
@@ -7,7 +7,7 @@ User.create(
 )
 
 5.times do 
-    User.create(
+    User.create!(
         name: Faker::Name.name,
         email: Faker::Internet.email,
         password: "foobar",
@@ -20,3 +20,12 @@ exercises = ExerciseData.new
 
 # Seed exercise data to database
 exercises.seed
+
+# Create a mock workout for manual testing purposes
+user.workouts.create!(
+    date: DateTime.now,
+    exercises: [
+        Exercise.first,
+        Exercise.last
+    ]
+)

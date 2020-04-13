@@ -28,9 +28,14 @@ class WorkoutTest < ActiveSupport::TestCase
     assert_not @workout.valid?
   end
 
-  test "should be destroyed when user destroyed" do
+  test "should be destroyed when user is destroyed" do
     assert_difference -> { Workout.count }, -1 do
       @user.destroy
     end
+  end
+
+  test "should give associated exercises" do
+    @workout.exercises << exercises(:example_exercise)
+    assert @workout.basic_details[:workout][:exercises].present?
   end
 end

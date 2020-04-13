@@ -11,7 +11,7 @@ class ApplicationController < ActionController::API
             if !authorize_request
                 messages = [Messages.unauthorized]
                 json = ApiResponse.json(error: true, messages: messages)
-                render json: json, status: :unauthorized
+                return render json: json, status: :unauthorized
             end
         end
 end
