@@ -1,6 +1,6 @@
 module Api::V1
     class UsersController < ApplicationController
-        skip_before_action :is_authorized?, only: [:create]
+        skip_before_action :require_authorization, only: [:create]
         before_action :is_current_user?, except: [:create]
 
         def show

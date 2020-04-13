@@ -1,6 +1,6 @@
 module Api::V1
     class AuthController < ApplicationController
-        skip_before_action :is_authorized?, only: [:create]
+        skip_before_action :require_authorization, only: [:create]
 
         def create
             @user = User.find_by(email: login_params[:email])
@@ -15,6 +15,7 @@ module Api::V1
         end
 
         def destroy
+            @current_user = nil
             render json: ApiResponse.json, status: :ok
         end
 

@@ -3,31 +3,19 @@ class ExerciseData
     attr_reader :exercises
 
     def initialize
+        # Parse the exercise data located in lib/exercises.
+        # The 'parse_exercises' method is provided by ParseExercises module 
+        # found in app/lib/parse_exercises.rb
         @exercises = parse_exercises
     end
     
     def seed
-        begin
-            seed_muscle_groups
-            seed_exercises
-            true
-        rescue Exception => e
-            p e if !Rails.env.test?
-            nil
-        end
+        seed_muscle_groups
+        seed_exercises
+        true
     end
     
     private 
-
-        # Parse exercises found in lib/exercises
-        def parse_exercises
-            begin
-                @data ||= get_data
-            rescue Exception => e
-                p e if !Rails.env.test?
-                nil
-            end
-        end
         
         def seed_muscle_groups
             muscle_groups.each do |muscle_group|

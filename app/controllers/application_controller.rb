@@ -1,13 +1,13 @@
 class ApplicationController < ActionController::API
-    before_action :is_authorized?
+    before_action :require_authorization
 
     private
 
         def authorize_request
-            @current_user = (AuthorizeApiRequest.new(headers: request.headers).call)
+            @current_user = ApiRequest.new(request).authorize
         end
 
-        def is_authorized?
+        def require_authorization
             if !authorize_request
                 messages = [Messages.unauthorized]
                 json = ApiResponse.json(error: true, messages: messages)

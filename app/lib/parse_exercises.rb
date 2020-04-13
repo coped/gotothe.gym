@@ -1,11 +1,7 @@
 module ParseExercises
     private
-    
-        def main_directory
-            Rails.root.join('lib', 'exercises')
-        end
 
-        def get_data
+        def parse_exercises
             all_exercises.reduce([]) do |total, exercise_dir|
                 json_file = find_json_file(files: files_in(directory: exercise_dir))
                 
@@ -14,6 +10,10 @@ module ParseExercises
                 )
                 total << exercise
             end
+        end
+
+        def main_directory
+            Rails.root.join('lib', 'exercises')
         end
 
         def all_exercises

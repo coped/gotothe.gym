@@ -52,7 +52,7 @@ module Api::V1
 
             def workout_belongs_to_user?
                 @workout = Workout.find_by(id: params[:id])
-                if @current_user != @workout.user
+                if @current_user.id != @workout.user_id
                     messages = [Messages.unauthorized]
                     json = ApiResponse.json(
                         error: true,
