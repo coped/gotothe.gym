@@ -1,4 +1,9 @@
 class Exercise < ApplicationRecord
+	# Override to_param to use Exercise name as URL identifier, and in path constructors
+	def to_param
+		name
+	end
+
 	# === Associations ====
 	has_many :workout_exercises, dependent: :destroy
 	has_many :exercise_muscle_groups, dependent: :destroy
@@ -30,4 +35,21 @@ class Exercise < ApplicationRecord
                                         length: { maximum: 10_000 }
                                         
 	validates :tips,                    length: { maximum: 500 }
+
+	# === Instance methods ===
+	def full_details
+		ExerciseBlueprint.render_as_hash(
+			self,
+			view: :full_details,
+			root: :exercise
+		)
+	end
+
+	def self.all_exercises
+		ExerciseBlueprint.render_as_hash(
+			Exercise.all.includes(:muscle_groups),
+			view: :full_details,
+			root: :exercises
+		)
+	end
 end
