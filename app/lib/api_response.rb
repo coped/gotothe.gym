@@ -12,11 +12,11 @@ module ApiResponse
         def self.enforce_types(json)
             # Messages should always be of type Array
             if !json[:messages].kind_of?(Array) and !json[:messages].nil?
-                raise ArgumentError, "JsonReponse messages argument should be of type Array"
+                raise ArgumentError, "JsonReponse messages argument should be of class Array"
             end
             # Payload should always be of type Hash
             if !json[:payload].kind_of?(Hash) and !json[:payload].nil?
-                raise ArgumentError, "JsonResponse payload argument should be of type Hash"
+                raise ArgumentError, "JsonResponse payload argument should be of class Hash"
             end
             return json
         end     

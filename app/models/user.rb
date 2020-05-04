@@ -30,6 +30,16 @@ class User < ApplicationRecord
         details
     end
 
+    def dashboard_details(with_jwt: false)
+        details = UserBlueprint.render_as_hash(
+            self,
+            view: :dashboard_details,
+            root: :user
+        )
+        details[:jwt] = generate_jwt if with_jwt
+        details
+    end
+
     def generate_jwt
         JsonWebToken.encode(payload: { user_id: self.id })
     end

@@ -22,7 +22,7 @@ module Messages
             HashWithIndifferentAccess.new(
                 {
                     type: "warning",
-                    message: user.errors.full_messages.to_sentence
+                    message: user.errors.full_messages.join("\n")
                 }
             )
         else
@@ -35,7 +35,7 @@ module Messages
             HashWithIndifferentAccess.new(
                 {
                     type: "warning",
-                    message: workout.errors.full_messages.to_sentence
+                    message: workout.errors.full_messages.join("\n")
                 }
             )
         else
