@@ -25,4 +25,4 @@
 .env
 
 # Ignore todo list
-things.todo
+todo.commit

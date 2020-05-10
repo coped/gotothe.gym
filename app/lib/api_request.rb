@@ -1,4 +1,5 @@
 class ApiRequest
+    attr_reader :request
     def initialize(request)
         @request = request
     end
@@ -11,7 +12,7 @@ class ApiRequest
     private
 
         def user
-            @user = (decoded_token) ? User.find_by(id: decoded_token["user_id"]) : nil
+            @user ||= (decoded_token) ? User.find_by(id: decoded_token["user_id"]) : nil
         end
 
         def decoded_token
@@ -23,7 +24,7 @@ class ApiRequest
         end
 
         def headers
-            @request.headers
+            request.headers
         end
 
         def http_auth_header

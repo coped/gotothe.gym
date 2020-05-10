@@ -9,21 +9,21 @@ class ExerciseDataTest < ActiveSupport::TestCase
         assert_equal Array, @data.exercises.class
     end
 
-    test "exercises array should only consist of hashes" do
+    test "exercises array should consist of Exercise structs" do
         @data.exercises.each do |item|
-            assert_equal Hash, item.class
+            assert_equal ExerciseData::ExerciseStruct, item.class
         end
     end
 
-    test "each hash in parse array should have all valid attributes" do
-        valid_attributes = %w(
+    test "each struct in parse array should have all valid attributes" do
+        valid_attributes = %i(
             id        name  title 
             primer    type  equipment 
             secondary steps tips
         )
 
         @data.exercises.each do |exercise|
-            exercise_attributes = exercise.keys
+            exercise_attributes = exercise.members
             valid_attributes.each do |attribute|
                 assert_includes exercise_attributes, attribute
             end
