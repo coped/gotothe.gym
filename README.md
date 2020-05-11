@@ -15,6 +15,11 @@ The other two applications involved in the Gym Partner project can be found here
 ## Getting started
 You can get started by signing up at https://gympartner.app
 
+## Data Structure
+The Gym Partner API currently has the following database structure:
+
+![Gym Partner API data structure](https://gympartner.s3-us-west-1.amazonaws.com/data-model.png)
+
 ## Data for exercises
 Data for exercise descriptions and images were sourced from the [Everkinetic data repository](https://github.com/everkinetic/data). Many thanks to them.
 
