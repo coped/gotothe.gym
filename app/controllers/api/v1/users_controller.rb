@@ -23,7 +23,7 @@ module Api::V1
                     error: true, 
                     messages: messages
                 )
-                render json: json, status: :bad_request
+                render json: json, status: :unprocessable_entity
             end
         end
 
@@ -39,7 +39,7 @@ module Api::V1
                     error: true,
                     messages: messages
                 )
-                render json: json, status: :bad_request
+                render json: json, status: :unprocessable_entity
             end
         end
 
@@ -52,7 +52,7 @@ module Api::V1
                     error: true,
                     messages: messages
                 )
-                render json: json, status: :internal_server_error
+                render json: json, status: :unprocessable_entity
             end
         end
 
