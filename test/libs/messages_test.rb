@@ -6,26 +6,16 @@ class MessagesTest < ActiveSupport::TestCase
         @message = Messages.unauthorized
     end
 
-    test "should return an indifferent hash, representing message attributes" do
-        assert_equal HashWithIndifferentAccess, @message.class
+    test "should return a hash, representing message attributes" do
+        assert_equal Hash, @message.class
     end
 
     test "should have a 'type' attribute" do
-        assert_includes @message.keys, 'type'
+        assert_includes @message.keys, :type
     end
 
     test "should have a 'messsage' attribute" do
-        assert_includes @message.keys, 'message'
-    end
-
-    test "message values should have indifferent access" do
-        assert_equal @message['message'], @message[:message]
-    end
-
-    test "should raise ArgumentError if user has no errors" do
-        assert_raises ArgumentError do
-            Messages.user_errors(@user)
-        end
+        assert_includes @message.keys, :message
     end
 
     test "should return error messages specific to user" do
