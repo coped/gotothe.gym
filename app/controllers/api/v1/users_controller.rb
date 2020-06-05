@@ -5,7 +5,7 @@ module Api::V1
 
         def show
             json = ApiResponse.json(
-                payload: @user.dashboard_details(with_jwt: true)
+                payload: @user.details(with_jwt: true)
             )
             render json: json, status: :ok
         end
@@ -14,7 +14,7 @@ module Api::V1
             @user = User.new(user_params)
             if @user.save
                 json = ApiResponse.json(
-                    payload: @user.dashboard_details(with_jwt: true)
+                    payload: { jwt: @user.generate_jwt }
                 )
                 render json: json, status: :ok
             else
@@ -30,7 +30,7 @@ module Api::V1
         def update
             if @user.update(user_params)
                 json = ApiResponse.json(
-                    payload: @user.basic_details
+                    payload: @user.details
                 )
                 render json: json, status: :ok
             else

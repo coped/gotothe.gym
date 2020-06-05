@@ -36,6 +36,6 @@ class WorkoutTest < ActiveSupport::TestCase
 
   test "should give associated exercises" do
     @workout.exercises << exercises(:example_exercise)
-    assert @workout.basic_details[:workout][:exercises].present?
+    assert @workout.details[:workout][:exercises].present?
   end
 end

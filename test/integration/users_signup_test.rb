@@ -25,8 +25,11 @@ class UsersSignupTest < ActionDispatch::IntegrationTest
     end
     user = User.last
     assert_equal 'success', json_response['status']
-    assert_includes json_response['payload'], 'user'
     assert_includes json_response['payload'], 'jwt'
+    # Get redirected to user page
+    new_user = User.find_by(email: 'new@user.com')
+    get api_v1_user_path(new_user), headers: auth_header(new_user)
+    assert_includes json_response['payload'], 'user'
     assert_equal user.id, json_response['payload']['user']['id']
     assert_equal user.id, JWT.decode(
       json_response['payload']['jwt'],

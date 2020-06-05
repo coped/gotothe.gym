@@ -37,10 +37,10 @@ class Exercise < ApplicationRecord
 	validates :tips,                    length: { maximum: 500 }
 
 	# === Instance methods ===
-	def full_details
+	def details
 		ExerciseBlueprint.render_as_hash(
 			self,
-			view: :full_details,
+			view: :all_details,
 			root: :exercise
 		)
 	end
@@ -48,7 +48,7 @@ class Exercise < ApplicationRecord
 	def self.all_exercises
 		ExerciseBlueprint.render_as_hash(
 			Exercise.all.includes(:muscle_groups),
-			view: :full_details,
+			view: :all_details,
 			root: :exercises
 		)
 	end

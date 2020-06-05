@@ -22,7 +22,6 @@ class UsersLoginTest < ActionDispatch::IntegrationTest
                                               password: 'foobar' } }
     assert_equal 'success', json_response['status']
     assert_includes json_response['payload'], 'jwt'
-    assert_includes json_response['payload'], 'user'
     user_token = json_response['payload']['jwt']
     auth_header = 'Bearer ' + user_token
     # Viewing user page

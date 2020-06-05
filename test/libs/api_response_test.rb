@@ -24,7 +24,7 @@ class ApiResponseTest < ActiveSupport::TestCase
     end
 
     test "should properly return provided payload argument" do
-        payload = @user.basic_details
+        payload = @user.details
         json = ApiResponse.json(payload: payload)
         assert_equal payload, json[:payload]
     end
@@ -37,7 +37,7 @@ class ApiResponseTest < ActiveSupport::TestCase
     end
 
     test "payload parameter should only accept arguments of type Hash" do
-        payload = [@user.basic_details]
+        payload = [@user.details]
         assert_raises(ArgumentError) do 
             ApiResponse.json(payload: payload)
         end

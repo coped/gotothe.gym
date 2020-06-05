@@ -13,10 +13,9 @@ class Workout < ApplicationRecord
 
     # === Instance methods ===
 
-        def basic_details
+        def details
             WorkoutBlueprint.render_as_hash(
                 self,
-                view: :basic_details,
                 root: :workout
             )
         end

@@ -4,7 +4,7 @@ module Api::V1
 
         def show
             json = ApiResponse.json(
-                payload: @workout.basic_details
+                payload: @workout.details
             )
             render json: json, status: :ok
         end
@@ -13,7 +13,7 @@ module Api::V1
             @new_workout = @current_user.workouts.build(workout_params)
             if @new_workout.save
                 json = ApiResponse.json(
-                    payload: @new_workout.basic_details
+                    payload: @new_workout.details
                 )
                 render json: json, status: :ok
             else
@@ -29,7 +29,7 @@ module Api::V1
         def update
             if @workout.update(workout_params)
                 json = ApiResponse.json(
-                    payload: @workout.basic_details
+                    payload: @workout.details
                 )
                 render json: json, status: :ok
             else

@@ -11,7 +11,6 @@ class Api::AuthControllerTest < ActionDispatch::IntegrationTest
                                                  password: 'foobar' } }
         assert_equal 'success', json_response['status']
         assert_includes json_response['payload'], 'jwt'
-        assert_equal @user.id, json_response['payload']['user']['id']
     end
 
     test 'should not respond with JWT and user when provided with incorrect credentials' do

@@ -12,7 +12,7 @@ module Api::V1
         def show
             @exercise = Exercise.find_by(name: params[:name])
             json = ApiResponse.json(
-                payload: @exercise.full_details
+                payload: @exercise.details
             )
             render json: json, status: :ok
         end

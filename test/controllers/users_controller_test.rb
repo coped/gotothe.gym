@@ -33,7 +33,6 @@ class Api::UsersControllerTest < ActionDispatch::IntegrationTest
                                                 password: 'foobar',
                                                 password_confirmation: 'foobar' } }
         assert_equal 'success', json_response['status']
-        assert_includes json_response['payload'], 'user'
         assert_includes json_response['payload'], 'jwt'
     end
 
