@@ -14,7 +14,10 @@ module Api::V1
             @user = User.new(user_params)
             if @user.save
                 json = ApiResponse.json(
-                    payload: { jwt: @user.generate_jwt }
+                    payload: { 
+                        jwt: @user.generate_jwt,
+                        user: UserBlueprint.render_as_hash(@user)
+                    }
                 )
                 render json: json, status: :ok
             else

@@ -5,7 +5,11 @@ module Api::V1
         def create
             @user = User.find_by(email: login_params[:email])
             if @user && @user.authenticate(login_params[:password])
-                json = ApiResponse.json(payload: { jwt: @user.generate_jwt })
+                json = ApiResponse.json(
+                    payload: { 
+                        jwt: @user.generate_jwt, 
+                        user: UserBlueprint.render_as_hash(@user)
+                    })
                 render json: json, status: :ok
             else
                 messages = [Messages.invalid_credentials]
